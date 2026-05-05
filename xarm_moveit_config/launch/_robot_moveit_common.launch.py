@@ -236,7 +236,7 @@ def launch_setup(context, *args, **kwargs):
         'max_range': 2.0,
 
         'right_cam.sensor_plugin': 'occupancy_map_monitor/PointCloudOctomapUpdater',
-        'right_cam.point_cloud_topic': '/right/depth/color/points',
+        'right_cam.point_cloud_topic': '/camera/right/depth/color/points',
         'right_cam.max_range': 2.0,
         'right_cam.point_subsample': 2,
         'right_cam.padding_offset': 0.05,
@@ -245,7 +245,7 @@ def launch_setup(context, *args, **kwargs):
         'right_cam.filtered_cloud_topic': 'right_filtered_cloud',
 
         'left_cam.sensor_plugin': 'occupancy_map_monitor/PointCloudOctomapUpdater',
-        'left_cam.point_cloud_topic': '/left/depth/color/points',
+        'left_cam.point_cloud_topic': '/camera/left/depth/color/points',
         'left_cam.max_range': 2.0,
         'left_cam.point_subsample': 2,
         'left_cam.padding_offset': 0.05,
