@@ -60,6 +60,7 @@ def launch_setup(context, *args, **kwargs):
     kinematics_suffix = LaunchConfiguration('kinematics_suffix', default='')
 
     use_sim_time = LaunchConfiguration('use_sim_time', default=False)
+
     octomap_enable = LaunchConfiguration('octomap_enable', default=False)
     octomap_resolution = LaunchConfiguration('octomap_resolution', default=0.02)
     octomap_frame = LaunchConfiguration('octomap_frame', default='link_base')
