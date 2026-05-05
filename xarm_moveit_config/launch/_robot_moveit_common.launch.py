@@ -60,6 +60,9 @@ def launch_setup(context, *args, **kwargs):
     kinematics_suffix = LaunchConfiguration('kinematics_suffix', default='')
 
     use_sim_time = LaunchConfiguration('use_sim_time', default=False)
+    octomap_enable = LaunchConfiguration('octomap_enable', default=False)
+    octomap_resolution = LaunchConfiguration('octomap_resolution', default=0.02)
+    octomap_frame = LaunchConfiguration('octomap_frame', default='link_base')
 
     moveit_config_package_name = 'xarm_moveit_config'
     xarm_type = '{}{}'.format(robot_type.perform(context), dof.perform(context) if robot_type.perform(context) in ('xarm', 'lite') else '')
@@ -224,34 +227,50 @@ def launch_setup(context, *args, **kwargs):
         # },
     }
 
-    # sensor_manager_parameters = {
-    #     'sensors': ['ros'],
-    #     'octomap_resolution': 0.02,
-    #     'ros.sensor_plugin': 'occupancy_map_monitor/PointCloudOctomapUpdater',
-    #     'ros.point_cloud_topic': '/camera/depth/color/points',
-    #     'ros.max_range': 2.0,
-    #     'ros.point_subsample': 1,
-    #     'ros.padding_offset': 0.1,
-    #     'ros.padding_scale': 1.0,
-    #     'ros.max_update_rate': 1.0,
-    #     'ros.filtered_cloud_topic': 'filtered_cloud',
-    # }
+    sensor_manager_parameters = {
+        'moveit_sensor_manager': 'moveit_ros_perception/PointCloudOctomapUpdater',
+        'sensors': ['right_cam', 'left_cam'],
+        'octomap_frame': octomap_frame,
+        'octomap_resolution': octomap_resolution,
+        'max_range': 2.0,
+
+        'right_cam.sensor_plugin': 'occupancy_map_monitor/PointCloudOctomapUpdater',
+        'right_cam.point_cloud_topic': '/right/depth/color/points',
+        'right_cam.max_range': 2.0,
+        'right_cam.point_subsample': 2,
+        'right_cam.padding_offset': 0.05,
+        'right_cam.padding_scale': 1.0,
+        'right_cam.max_update_rate': 5.0,
+        'right_cam.filtered_cloud_topic': 'right_filtered_cloud',
+
+        'left_cam.sensor_plugin': 'occupancy_map_monitor/PointCloudOctomapUpdater',
+        'left_cam.point_cloud_topic': '/left/depth/color/points',
+        'left_cam.max_range': 2.0,
+        'left_cam.point_subsample': 2,
+        'left_cam.padding_offset': 0.05,
+        'left_cam.padding_scale': 1.0,
+        'left_cam.max_update_rate': 5.0,
+        'left_cam.filtered_cloud_topic': 'left_filtered_cloud',
+    }
 
     # Start the actual move_group node/action server
+    move_group_parameters = [
+        robot_description_parameters,
+        ompl_planning_pipeline_config,
+        trajectory_execution,
+        plan_execution,
+        moveit_controllers,
+        planning_scene_monitor_parameters,
+        {'use_sim_time': use_sim_time},
+    ]
+    if octomap_enable.perform(context) in ('True', 'true', '1'):
+        move_group_parameters.append(sensor_manager_parameters)
+
     move_group_node = Node(
         package='moveit_ros_move_group',
         executable='move_group',
         output='screen',
-        parameters=[
-            robot_description_parameters,
-            ompl_planning_pipeline_config,
-            trajectory_execution,
-            plan_execution,
-            moveit_controllers,
-            planning_scene_monitor_parameters,
-            # sensor_manager_parameters,
-            {'use_sim_time': use_sim_time},
-        ],
+        parameters=move_group_parameters,
     )
 
     # rviz with moveit configuration
