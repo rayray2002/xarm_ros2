@@ -27,6 +27,9 @@ def generate_launch_description():
             'robot_type': 'xarm',
             'hw_ns': hw_ns,
             'no_gui_ctrl': 'false',
+            'octomap_enable': LaunchConfiguration('octomap_enable', default='false'),
+            'octomap_resolution': LaunchConfiguration('octomap_resolution', default='0.02'),
+            'octomap_frame': LaunchConfiguration('octomap_frame', default='link_base'),
         }.items(),
     )
     
