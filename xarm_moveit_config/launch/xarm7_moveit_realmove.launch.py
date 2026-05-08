@@ -16,7 +16,8 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     robot_ip = LaunchConfiguration('robot_ip')
     hw_ns = LaunchConfiguration('hw_ns', default='xarm')
-    
+    limited = LaunchConfiguration('limited', default='true')
+
     # robot moveit realmove launch
     # xarm_moveit_config/launch/_robot_moveit_realmove.launch.py
     robot_moveit_realmove_launch = IncludeLaunchDescription(
@@ -27,6 +28,7 @@ def generate_launch_description():
             'robot_type': 'xarm',
             'hw_ns': hw_ns,
             'no_gui_ctrl': 'false',
+            'limited': limited,
             'octomap_enable': LaunchConfiguration('octomap_enable', default='false'),
             'octomap_resolution': LaunchConfiguration('octomap_resolution', default='0.02'),
             'octomap_frame': LaunchConfiguration('octomap_frame', default='link_base'),
