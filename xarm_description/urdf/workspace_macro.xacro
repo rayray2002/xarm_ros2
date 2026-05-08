@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="xarm_workspace">
+
+  <xacro:macro name="xarm_workspace" 
+               params="prefix attach_to attach_rpy:='0 0 0' 
+                       table_length:='1.0' table_width:='2.0' table_height:='0.05' 
+                       table_x:='0.5' table_y:='0.0' table_z:='-0.045'
+                       pole_length:='0.1' pole_width:='0.1' pole_height:='1.0'
+                       pole_x:='0.0' pole_y:='-0.55' pole_z:='0.5'
+                       cam_length:='0.08' cam_width:='0.12' cam_height:='0.05'
+                       cam_x:='0.0' cam_y:='-0.55' cam_z:='1.0' cam_rpy:='0 0 0'
+                       pole2_length:='0.1' pole2_width:='0.1' pole2_height:='1.0'
+                       pole2_x:='0.0' pole2_y:='0.55' pole2_z:='0.5'
+                       cam2_length:='0.08' cam2_width:='0.12' cam2_height:='0.05'
+                       cam2_x:='0.0' cam2_y:='0.55' cam2_z:='1.0' cam2_rpy:='0 0 0'">
+    
+    <link name="${prefix}table_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${table_length} ${table_width} ${table_height}"/> 
+        </geometry>
+        <material name="LightGrey">
+          <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${table_length} ${table_width} ${table_height}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}table_joint" type="fixed">
+      <parent link="${attach_to}"/>
+      <child link="${prefix}table_link"/>
+      <origin xyz="${table_x} ${table_y} ${table_z}" rpy="${attach_rpy}"/> 
+    </joint>
+
+    <link name="${prefix}pole_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${pole_length} ${pole_width} ${pole_height}"/>
+        </geometry>
+        <material name="DarkGrey">
+          <color rgba="0.3 0.3 0.3 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${pole_length} ${pole_width} ${pole_height}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}pole_joint" type="fixed">
+      <parent link="${attach_to}"/>
+      <child link="${prefix}pole_link"/>
+      <origin xyz="${pole_x} ${pole_y} ${pole_z}" rpy="${attach_rpy}"/> 
+    </joint>
+
+    <link name="${prefix}camera_mount_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${cam_length} ${cam_width} ${cam_height}"/>
+        </geometry>
+        <material name="Black">
+          <color rgba="0.1 0.1 0.1 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${cam_length} ${cam_width} ${cam_height}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}camera_mount_joint" type="fixed">
+      <parent link="${attach_to}"/>
+      <child link="${prefix}camera_mount_link"/>
+      <origin xyz="${cam_x} ${cam_y} ${cam_z}" rpy="${cam_rpy}"/> 
+    </joint>
+
+    <link name="${prefix}pole2_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${pole2_length} ${pole2_width} ${pole2_height}"/>
+        </geometry>
+        <material name="DarkGrey">
+          <color rgba="0.3 0.3 0.3 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${pole2_length} ${pole2_width} ${pole2_height}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}pole2_joint" type="fixed">
+      <parent link="${attach_to}"/>
+      <child link="${prefix}pole2_link"/>
+      <origin xyz="${pole2_x} ${pole2_y} ${pole2_z}" rpy="${attach_rpy}"/> 
+    </joint>
+
+    <link name="${prefix}camera_mount2_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${cam2_length} ${cam2_width} ${cam2_height}"/>
+        </geometry>
+        <material name="Black">
+          <color rgba="0.1 0.1 0.1 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${cam2_length} ${cam2_width} ${cam2_height}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}camera_mount2_joint" type="fixed">
+      <parent link="${attach_to}"/>
+      <child link="${prefix}camera_mount2_link"/>
+      <origin xyz="${cam2_x} ${cam2_y} ${cam2_z}" rpy="${cam2_rpy}"/> 
+    </joint>
+
+  </xacro:macro>
+
+</robot>

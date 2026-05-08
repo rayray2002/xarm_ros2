@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="UF_ROBOT">
+  <xacro:arg name="prefix" default=""/>
+  <xacro:arg name="hw_ns" default="xarm"/>
+  <xacro:arg name="limited" default="false"/>
+  <xacro:arg name="effort_control" default="false"/>
+  <xacro:arg name="velocity_control" default="false"/>
+  <xacro:arg name="add_gripper" default="false"/>
+  <xacro:arg name="add_vacuum_gripper" default="false"/>
+  <xacro:arg name="add_bio_gripper" default="false"/>
+  <xacro:arg name="model1300" default="false"/>
+  
+  <xacro:arg name="dof" default="7"/>
+  <xacro:arg name="robot_ip" default=""/>
+  <xacro:arg name="robot_type" default="xarm"/>
+  <xacro:arg name="robot_sn" default=""/>
+  <xacro:arg name="report_type" default="normal"/>
+
+  <xacro:arg name="ros2_control_plugin" default="uf_robot_hardware/UFRobotSystemHardware"/>
+  <xacro:arg name="ros2_control_params" default=""/>
+
+  <xacro:arg name="add_realsense_d435i" default="false"/>
+  <xacro:arg name="add_d435i_links" default="true"/>
+  <xacro:arg name="use_gazebo_camera" default="false"/>
+
+  <xacro:arg name="add_other_geometry" default="false"/>
+  <xacro:arg name="geometry_type" default="box"/>
+  <xacro:arg name="geometry_mass" default="0.1"/>
+  <xacro:arg name="geometry_height" default="0.1"/>
+  <xacro:arg name="geometry_radius" default="0.1"/>
+  <xacro:arg name="geometry_length" default="0.1"/>
+  <xacro:arg name="geometry_width" default="0.1"/>
+  <xacro:arg name="geometry_mesh_filename" default=""/>
+  <xacro:arg name="geometry_mesh_origin_xyz" default="0 0 0"/>
+  <xacro:arg name="geometry_mesh_origin_rpy" default="0 0 0"/>
+  <xacro:arg name="geometry_mesh_tcp_xyz" default="0 0 0"/>
+  <xacro:arg name="geometry_mesh_tcp_rpy" default="0 0 0"/>
+
+  <xacro:arg name="baud_checkset" default="true"/>
+  <xacro:arg name="default_gripper_baud" default="2000000"/>
+  
+  <xacro:arg name="attach_to" default="world"/>
+  <xacro:arg name="attach_xyz" default="0 0 0"/>
+  <xacro:arg name="attach_rpy" default="0 0 0"/>
+  <xacro:arg name="mesh_suffix" default="stl"/>
+
+  <xacro:arg name="kinematics_suffix" default=""/>
+  <xacro:arg name="gripper_version" default="G1"/>
+  <!-- workspace parameters -->
+  <xacro:arg name="table_length" default="1.0"/>
+  <xacro:arg name="table_width" default="1.0"/>
+  <xacro:arg name="table_height" default="0.05"/>
+  <xacro:arg name="table_x" default="0.5"/>
+  <xacro:arg name="table_y" default="0.0"/>
+  <xacro:arg name="table_z" default="-0.025"/>
+  <xacro:arg name="pole_length" default="0.06"/>
+  <xacro:arg name="pole_width" default="0.06"/>
+  <xacro:arg name="pole_height" default="1.0"/>
+  <xacro:arg name="pole_x" default="0.0"/>
+  <xacro:arg name="pole_y" default="-0.47"/>
+  <xacro:arg name="pole_z" default="0.5"/>
+  <xacro:arg name="cam_length" default="0.25"/>
+  <xacro:arg name="cam_width" default="0.25"/>
+  <xacro:arg name="cam_height" default="0.2"/>
+  <xacro:arg name="cam_x" default="0.0"/>
+  <xacro:arg name="cam_y" default="-0.47"/>
+  <xacro:arg name="cam_z" default="0.6"/>
+  <xacro:arg name="cam_rpy" default="0 0 0"/>
+  <xacro:arg name="pole2_length" default="0"/>
+  <xacro:arg name="pole2_width" default="0"/>
+  <xacro:arg name="pole2_height" default="0"/>
+  <xacro:arg name="pole2_x" default="0.0"/>
+  <xacro:arg name="pole2_y" default="0.47"/>
+  <xacro:arg name="pole2_z" default="0.5"/>
+  <xacro:arg name="cam2_length" default="0.25"/>
+  <xacro:arg name="cam2_width" default="0.25"/>
+  <xacro:arg name="cam2_height" default="0.2"/>
+  <xacro:arg name="cam2_x" default="0.0"/>
+  <xacro:arg name="cam2_y" default="0.47"/>
+  <xacro:arg name="cam2_z" default="0.6"/>
+  <xacro:arg name="cam2_rpy" default="0 0 0"/>
+
+  <!-- load the workspace -->
+  <xacro:include filename="$(find xarm_description)/urdf/workspace_macro.xacro" />
+  <xacro:xarm_workspace 
+    prefix="$(arg prefix)" 
+    attach_to="$(arg attach_to)" 
+    attach_rpy="$(arg attach_rpy)"
+    table_length="$(arg table_length)"
+    table_width="$(arg table_width)"
+    table_height="$(arg table_height)"
+    table_x="$(arg table_x)"
+    table_y="$(arg table_y)"
+    table_z="$(arg table_z)"
+    pole_length="$(arg pole_length)"
+    pole_width="$(arg pole_width)"
+    pole_height="$(arg pole_height)"
+    pole_x="$(arg pole_x)"
+    pole_y="$(arg pole_y)"
+    pole_z="$(arg pole_z)" 
+    cam_length="$(arg cam_length)"
+    cam_width="$(arg cam_width)"
+    cam_height="$(arg cam_height)"
+    cam_x="$(arg cam_x)"
+    cam_y="$(arg cam_y)"
+    cam_z="$(arg cam_z)"
+    cam_rpy="$(arg cam_rpy)"
+    pole2_length="$(arg pole2_length)"
+    pole2_width="$(arg pole2_width)"
+    pole2_height="$(arg pole2_height)"
+    pole2_x="$(arg pole2_x)"
+    pole2_y="$(arg pole2_y)"
+    pole2_z="$(arg pole2_z)"
+    cam2_length="$(arg cam2_length)"
+    cam2_width="$(arg cam2_width)"
+    cam2_height="$(arg cam2_height)"
+    cam2_x="$(arg cam2_x)"
+    cam2_y="$(arg cam2_y)"
+    cam2_z="$(arg cam2_z)"
+    cam2_rpy="$(arg cam2_rpy)"/>
+
+  <!-- load xarm device -->
+  <xacro:include filename="$(find xarm_description)/urdf/xarm_device_macro.xacro" />
+  <xacro:xarm_device prefix="$(arg prefix)" hw_ns="$(arg hw_ns)" limited="$(arg limited)" 
+    effort_control="$(arg effort_control)" velocity_control="$(arg velocity_control)"
+    add_gripper="$(arg add_gripper)" add_vacuum_gripper="$(arg add_vacuum_gripper)" 
+    add_bio_gripper="$(arg add_bio_gripper)" dof="$(arg dof)" 
+    ros2_control_plugin="$(arg ros2_control_plugin)" robot_type="$(arg robot_type)" 
+    load_gazebo_plugin="true" ros2_control_params="$(arg ros2_control_params)"
+    add_realsense_d435i="$(arg add_realsense_d435i)" 
+    add_d435i_links="$(arg add_d435i_links)" 
+    add_other_geometry="$(arg add_other_geometry)" 
+    geometry_type="$(arg geometry_type)" geometry_mass="$(arg geometry_mass)"
+    geometry_height="$(arg geometry_height)" geometry_radius="$(arg geometry_radius)"
+    geometry_length="$(arg geometry_length)" geometry_width="$(arg geometry_width)"
+    geometry_mesh_filename="$(arg geometry_mesh_filename)"
+    geometry_mesh_origin_xyz="$(arg geometry_mesh_origin_xyz)" geometry_mesh_origin_rpy="$(arg geometry_mesh_origin_rpy)"
+    geometry_mesh_tcp_xyz="$(arg geometry_mesh_tcp_xyz)" geometry_mesh_tcp_rpy="$(arg geometry_mesh_tcp_rpy)"
+    robot_ip="$(arg robot_ip)" report_type="$(arg report_type)"
+    baud_checkset="$(arg baud_checkset)" default_gripper_baud="$(arg default_gripper_baud)"
+    model1300="$(arg model1300)" attach_to="$(arg attach_to)" attach_xyz="$(arg attach_xyz)" attach_rpy="$(arg attach_rpy)"
+    robot_sn="$(arg robot_sn)" use_gazebo_camera="$(arg use_gazebo_camera)" mesh_suffix="$(arg mesh_suffix)" kinematics_suffix="$(arg kinematics_suffix)"
+    gripper_version="$(arg gripper_version)" />
+
+</robot>
