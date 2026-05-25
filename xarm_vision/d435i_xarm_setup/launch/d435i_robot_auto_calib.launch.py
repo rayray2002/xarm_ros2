@@ -22,6 +22,7 @@ def launch_setup(context, *args, **kwargs):
     hw_ns = LaunchConfiguration('hw_ns', default='')
     marker_size = LaunchConfiguration('marker_size', default=0.15)
     marker_id = LaunchConfiguration('marker_id', default=398)
+    realsense_serial_no = LaunchConfiguration('realsense_serial_no', default='')
 
     robot_type = robot_type.perform(context)
     dof = dof.perform(context)
@@ -36,9 +37,10 @@ def launch_setup(context, *args, **kwargs):
     rs_camera_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(PathJoinSubstitution([FindPackageShare('realsense2_camera'), 'launch', 'rs_launch.py'])),
         launch_arguments={
-            'publish_tf': 'false',
+            'publish_tf': 'true',
             # 'camera_name': 'D435i',
             # 'camera_namespace': 'camera',
+            'serial_no': realsense_serial_no,
         }.items(),
     )
 
@@ -46,7 +48,7 @@ def launch_setup(context, *args, **kwargs):
         package='aruco_ros',
         executable='single',
         parameters=[{
-            'image_is_rectified': True,
+            'image_is_rectified': False,
             'marker_size': marker_size,
             'marker_id': marker_id,
             'reference_frame': 'camera_color_optical_frame',

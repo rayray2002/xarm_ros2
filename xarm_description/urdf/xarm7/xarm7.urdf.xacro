@@ -264,6 +264,23 @@
         other_mesh_suffix="${collison_mesh_suffix}"
         origin_xyz="0 0 0" 
         origin_rpy="0 0 0" />
+        <!-- Wire visual cylinder -->
+      <visual name="${prefix}link7_wire_visual">
+        <!-- position/orientation relative to link7 frame -->
+        <origin xyz="0.0 -0.04 -0.014" rpy="1.5708 0 0"/>
+        <geometry>
+          <cylinder radius="0.01" length="0.06"/>
+        </geometry>
+        <material name="${prefix}WireBlack">
+          <color rgba="0.01 0.01 0.01 1.0"/>
+        </material>
+      </visual>
+      <collision name="${prefix}link7_wire_collision">
+        <origin xyz="0.0 -0.04 -0.014" rpy="1.5708 0 0"/>
+        <geometry>
+          <cylinder radius="0.01" length="0.06"/>
+        </geometry>
+      </collision>
     </link>
     <joint name="${prefix}joint7" type="revolute">
       <!-- <origin xyz="0.076 0.097 0" rpy="-1.5708 0 0" /> -->

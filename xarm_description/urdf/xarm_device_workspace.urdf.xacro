@@ -49,10 +49,10 @@
   <!-- workspace parameters -->
   <xacro:arg name="table_length" default="1.0"/>
   <xacro:arg name="table_width" default="1.0"/>
-  <xacro:arg name="table_height" default="0.05"/>
+  <xacro:arg name="table_height" default="0.1"/>
   <xacro:arg name="table_x" default="0.5"/>
   <xacro:arg name="table_y" default="0.0"/>
-  <xacro:arg name="table_z" default="-0.025"/>
+  <xacro:arg name="table_z" default="0"/>
   <xacro:arg name="pole_length" default="0.06"/>
   <xacro:arg name="pole_width" default="0.06"/>
   <xacro:arg name="pole_height" default="1.0"/>

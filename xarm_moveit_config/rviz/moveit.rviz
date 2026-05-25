@@ -135,7 +135,7 @@ Visualization Manager:
         Goal State Color: 250; 128; 0
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
-        Planning Group: xarm5
+        Planning Group: xarm7
         Query Goal State: true
         Query Start State: false
         Show Workspace: false
@@ -262,6 +262,26 @@ Visualization Manager:
       Update Interval: 0
       Value: true
       Visual Enabled: true
+    - Class: moveit_rviz_plugin/RobotState
+      Enabled: true
+      Name: PlanApproach Start
+      Robot Alpha: 0.4
+      Robot Description: robot_description
+      Robot State Topic: /plan_approach/start_state
+      Show All Links: true
+      Visual Enabled: true
+      Collision Enabled: false
+      Value: true
+    - Class: moveit_rviz_plugin/RobotState
+      Enabled: true
+      Name: PlanApproach Goal
+      Robot Alpha: 0.4
+      Robot Description: robot_description
+      Robot State Topic: /plan_approach/goal_state
+      Show All Links: true
+      Visual Enabled: true
+      Collision Enabled: false
+      Value: true
     - Class: moveit_rviz_plugin/Trajectory
       Color Enabled: false
       Enabled: true
